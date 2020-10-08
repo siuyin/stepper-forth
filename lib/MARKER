@@ -1,0 +1,34 @@
+\ STM8eForth : MARKER for words in RAM                                 MM-170929
+\ ------------------------------------------------------------------------------
+
+#require LAST
+#require [COMPILE]
+#require CALL,
+
+  HERE \ ( -- xt )
+    \ get CP stored by MARKER, get last & context from the mark's link field
+    ] RAM DUP @ LAST 2- ! 2+ @ DUP LAST ! LAST 10 + ! [ $81 C,
+
+  : MARKER ( "name" -- )
+  \ The marker "name" removes itself and all later defined words from RAM.
+    RAM HERE LAST 2- @ ,  \ store CP, then define a mark
+    : [COMPILE] LITERAL ( xt ) LITERAL CALL, [COMPILE] ;
+  ;
+
+\ ------------------------------------------------------------------------------
+\\ Example:
+
+RAM
+  : _ ;  \ dummy word to ensure that last points to RAM, not Flash
+
+  MARKER myMarker
+
+  : tempWordRAM ;
+
+NVM
+  : wordFlash ;
+
+RAM
+  myMarker
+
+\ tempWordRAM and myMarker are removed, wordFlash is still in the dictionary

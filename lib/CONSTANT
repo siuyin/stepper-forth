@@ -1,0 +1,45 @@
+\ STM8eForth : CONSTANT                                                MM-170927
+\ ------------------------------------------------------------------------------
+\ A constant is an immediate word that returns its value on the stack in inter-
+\ preter mode but compiles it (with LITERAL) in compile mode.
+
+#require MARKER
+
+  MARKER RAM\
+
+  : 'EVAL ( -- a ) BASE 2+ ;
+
+#require ALIAS
+
+  NVM HERE ] \ ( -- xt )
+    \ nameless definition in NVM, with ALIAS in RAM
+    R> @ [ 'EVAL DUP @ ]
+    LITERAL    \ 'EVAL in interpret mode
+    LITERAL @  \ current 'EVAL
+    - IF ( in compile mode ) [COMPILE] LITERAL THEN
+  [ $81 C, RAM ALIAS docon
+
+  NVM
+  : CONSTANT ( "name" x -- )
+    : COMPILE docon , [COMPILE] [ OVERT IMMEDIATE ;
+  RAM
+
+  RAM\
+\ ------------------------------------------------------------------------------
+\\ Example:
+
+ MARKER RAM\
+
+\res MCU: STM8S103
+\res export PB_ODR
+
+ NVM
+
+  : LED.on ( -- )  0 PB_ODR 5 B! ;
+  : LED.off ( -- ) 1 PB_ODR 5 B! ;
+
+ RAM
+
+ RAM\
+
+\index  LED.off  LED.on
