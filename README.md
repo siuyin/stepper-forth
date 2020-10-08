@@ -25,7 +25,7 @@ Stepper.init
 2 48 1 * Stepper.step
 ```
 
-The 2 is the step-interval (2 * 5ms),
+The '2' above is the step-interval (2 * 5ms),
 48 is the number of steps or each revolution of my stepper motor,
 1 is the number of revolutions.
 
