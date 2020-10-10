@@ -3,6 +3,9 @@
 #require ]B!
 
 NVM
+
+\ The counter clock frequency is calculated as follows:
+\ f CK_CNT = f CK_PSC /(PSCR[15:0]+1)
 : TIM1.prescale ( n -- )
     TIM1_PSCRH 2C!
     ;

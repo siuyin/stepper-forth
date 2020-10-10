@@ -17,7 +17,11 @@
     [ 1 TIM4_CR1 0 ]B!
 ;
 
-: TIM4.init ( prescale interval -- ) \ 2**prescale, eg 4 -> prescale by 2**4 = 16, max 2**7 = 128
+\ The counter clock frequency is calculated as follows:
+\ f CK_CNT = f CK_PSC /2 ** (PSCR[2:0])
+\ 
+\ Max interval is 255.
+: TIM4.init ( prescale interval -- )
     TIM4.upperLimit
     TIM4.prescale
     TIM4.enableClock

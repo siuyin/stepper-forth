@@ -6,6 +6,6 @@ variable uNext
 : udly ( n -- )
     TIM4_CNTR C@ + uNext C!
     begin
-        TIM4_CNTR C@ uNext C@ =
+        TIM4_CNTR C@ uNext C@ < not
     until
 ;
