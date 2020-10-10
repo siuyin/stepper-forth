@@ -3,6 +3,8 @@
 \res MCU: STM8S103
 \res export TIM4_PSCR TIM4_CR1 TIM4_ARR TIM4_CNTR
 
+NVM
+
 #require ]B!
 
 : TIM4.prescale ( n -- ) 
@@ -26,3 +28,5 @@
     TIM4.prescale
     TIM4.enableClock
 ;
+
+RAM

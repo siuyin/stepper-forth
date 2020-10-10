@@ -1,6 +1,9 @@
 \ udly.fs microsecond range blocking delay
 
 #require tim4.fs
+
+NVM
+
 variable uNext
 
 : udly ( n -- )
@@ -9,3 +12,5 @@ variable uNext
         TIM4_CNTR C@ uNext C@ < not
     until
 ;
+
+RAM
