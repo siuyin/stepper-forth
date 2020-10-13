@@ -67,9 +67,20 @@ variable BTN.cnt \ next run tick. TIM ticks every 5ms
     updateBTNCnt
 
     btnRunNow? if
-        4 resetBTNCnt
+        4 resetBTNCnt \ run again in n x 5ms ticks
         btnStateMachine
     then
 ;
 
+
+: StartToggleLED ( -- )
+    ." Toggle LED starting"
+    ToggleLEDInit
+    [ ' ToggleLED ] literal BG !
+    hi
+;
+
+\ ' StartToggleLED 'BOOT !
+
 RAM
+
