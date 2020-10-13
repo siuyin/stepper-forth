@@ -46,7 +46,7 @@ RAM
     [ 0 TIM4_SR 0 ]B! \ clear update interrupt flag
     1 tick +!
     iret
-;NVM ( xt ) INT_TIM4 !
+;NVM INT_TIM4 !
 
 \ TIM4.intrEn enables timer 4 interrupts.
 \ 1ms tick.
