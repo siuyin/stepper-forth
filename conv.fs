@@ -1,8 +1,6 @@
 \ conv.fs 64 sample ADC
 
-: adc.sample ( adcInp -- n )
-    ADC! ADC@
-;
+NVM
 
 : adc.ChSel ( c -- )
     ADC!
@@ -29,3 +27,5 @@
     \ make it unsigned
     $3ff and
 ;
+
+RAM
