@@ -1,4 +1,10 @@
 \ thr demonstrates threshold with hysterisis.
+
+#require led.fs
+#require conv.fs
+
+NVM
+
 : thr ( -- )
     3 conv ( -- n )
     dup ( n -- n n )
@@ -12,3 +18,14 @@
     then
     drop
 ;
+
+: startThr
+    ." Starting ADC threshold demo"
+    LED.Init
+    [ ' thr ] literal BG !
+    hi
+;
+
+' startThr 'BOOT !
+
+RAM
