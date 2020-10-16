@@ -21,7 +21,7 @@
         + ( n0 n1 -- ns )
     next
 
-    \ divide by 64
+    \ divide by 64 -- 2^6
     5 for
         2/
     next
