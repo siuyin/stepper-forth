@@ -1,5 +1,6 @@
 \res MCU: STM8S103
 \res export TIM1_PSCRH TIM1_ARRH TIM1_CR1 TIM1_CCMR3 TIM1_CCER2 TIM1_BKR TIM1_CCR3H TIM1_CNTRH
+\res export TIM1_CCMR4 TIM1_CCR4H
 #require ]B!
 
 NVM
@@ -39,6 +40,23 @@ NVM
     16 9999 TIM1.init
     TIM1.pwm3.init
     1999 TIM1.pwm3
+    ;
+
+: TIM1.pwm4.init ( -- )
+    $68 TIM1_CCMR4 C! \ set timer 1 channel 4 to PWM mode 1
+    [ 1 TIM1_CCER2 4 ]B! \ enable channel 4 output
+    [ 1 TIM1_BKR 6 ]B! \ AOE: Automatic Output Enable set
+    ;
+    
+: TIM1.pwm4 ( dutyCycle -- )
+    0 TIM1_CNTRH 2C! \ reset counter to zero
+    TIM1_CCR4H 2C! \ set pwm duty cycle
+    ;
+
+: PWM4.Blink ( -- )
+    16 9999 TIM1.init
+    TIM1.pwm4.init
+    1999 TIM1.pwm4
     ;
     
 RAM

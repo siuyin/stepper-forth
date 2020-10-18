@@ -3,6 +3,8 @@
 #require ]B!
 
 NVM
+\ LED on/off at PA2 (pin 6)
+\ LED PWM at PC4 (pin 14)
 : LED.init ( -- )
     [ 1 PA_DDR 2 ]B! \ set PA2 to output
     [ 1 PA_CR1 2 ]B! \ set PA2 to push-pull

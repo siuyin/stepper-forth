@@ -4,6 +4,7 @@
 #require tim4.fs
 #require dly.fs
 
+NVM
 
 : init ( -- )
     BTN.Init
@@ -34,16 +35,35 @@
     LED.Off
 ;
 
+: instr
+    CR
+    ." Press button when you see the 2nd flash" CR
+;
+
+: cheatCheck 
+    BTN.Pushed? if
+        CR
+        ABORT" Release button. Press only when you see the second flash."
+    then
+;
+
 \ start starts reaction time sequence by flasing the led for 1 second (200 5ms ticks).
 : start ( -- )
+    instr
+
     LED.Init 
     init
+
 
     LED.On
     200 dly
     LED.Off
 
+    cheatCheck
+
     randDly
 
     measure
 ;
+
+RAM
