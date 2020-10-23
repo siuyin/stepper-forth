@@ -37,22 +37,25 @@ NVM
 ;
 
 \ InitPin initialises PA1 (pin 5) to be a push-pull output.
-
 : initPin ( -- )
-    [ 1 PA_DDR 1 ]B! \ set PA1 to output
-    [ 0 PA_CR1 1 ]B! \ set PA1 to pseudo open-drain
+    [ 0 PA_CR1 1 ]B! \ set PA1 to pseudo open-drain on output, no pull-up on input
+;
+: pinH ( -- )
     [ 1 PA_ODR 1 ]B! \ set idle state to high
 ;
-
-: pinH ( -- )
-    [ 1 PA_ODR 1 ]B!
-;
-
 : pinL ( -- )
     [ 0 PA_ODR 1 ]B!
 ;
+: pinOut ( -- )
+    [ 1 PA_DDR 1 ]B! \ set PA1 to output
+    pinH
+;
+: pinIn ( -- )
+    [ 0 PA_DDR 1 ]B! \ set PA1 to input
+;
 
-251 constant bitDelay
+
+262 constant bitDelay
 
 : dly ( n -- ) \ simple busy loop delay
     for next
@@ -68,6 +71,7 @@ NVM
 ;
 
 : sendByte ( n -- )
+    pinOut
     0 sendBit \ low start bit
     7 for
         dup
