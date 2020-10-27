@@ -103,7 +103,9 @@ NVM
 
 251 constant bitDelay
 
-: dly ( n -- ) \ simple busy loop delay
+\ dly is a blocking delay for n * 122 cycles
+\ or approximately n * 7.625 microseconds.
+: dly ( n -- )
     for next
 ;
 : sendBit ( n -- ) 
