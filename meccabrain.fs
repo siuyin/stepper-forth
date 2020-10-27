@@ -230,15 +230,34 @@ variable outBytes 1 2* allot
     setDiscover
 ;
 
-\ discover initializes a Smart Module at position n.
-\ returns module type 1 for Server 2 for LED.
-: discover ( n -- n )
-    dup $FE swap sob \ put $FE in byte n
-    dup targetNodeReadByte
-    $FE = if
-        dup $FC swap sob \ put $FC in byte n
-        dup targetNodeReadByte
-    then
+\ pres? checks if module is present in location n.
+\ returns $FE (254) if present or 0 otherwise.
+: pres? ( n -- present )
+    dup $FE swap sob
+    targetNodeReadByte
 ;
+
+\ type? asks module at location n for its type
+: type? ( n -- typ )
+    dup $FC swap sob
+    targetNodeReadByte
+;
+
+
+\ sv commands servo at location n and returns its servo arm position.
+: sv ( cmd n -- pos )
+    dup rot swap sob ( cmd n -- n )
+    targetNodeReadByte
+;
+
+\ led sends command bytes to led at location n.
+: led ( b2 b1 n -- typ )
+   dup rot swap sob ( b2 b1 n -- b2 n )
+   dup targetNodeReadByte drop ( b2 n -- b2 n )
+   1000 dly
+   dup rot swap sob ( b2 n -- n )
+   targetNodeReadByte
+;
+
 
 RAM
