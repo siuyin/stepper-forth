@@ -12,6 +12,7 @@
 \ 
 \ Example usage sequence:
 \  
+\ commonSetup \ initialise the IO pin PA1.
 \ 0 pres? . 254 ok \ 0 are you there?
 \ 0 type? . 1 ok   \ 0 what are you? I see you are a servo.
 \ $f1 0 sv . 48 ok \ servo at 0, make your led red.
