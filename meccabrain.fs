@@ -9,6 +9,20 @@
 \ 
 \ $FA and below are user commands.
 \ Eg. $FA for a Smart Servo commands it into Learned Intelligent Movement mode.
+\ 
+\ Example usage sequence:
+\  
+\ 0 pres? . 254 ok \ 0 are you there?
+\ 0 type? . 1 ok   \ 0 what are you? I see you are a servo.
+\ $f1 0 sv . 48 ok \ servo at 0, make your led red.
+\ 1 pres? . 254 ok 
+\ 1 type? . 1 ok
+\ $f6 1 sv . 88 ok \ servo at 1, make your led cyan.
+\ 2 pres? . 254 ok
+\ 2 type? . 1 ok   \ I seem to need to ask you twice for a LED response.
+\ 2 type? . 2 ok
+\ 2 type? . 2 ok
+\ $40 8 2 led . 0 ok \ LED's require 2 control bytes: 01 Fd Fd Fd Bl Bl Bl, 00 Gr Gr Gr Rd Rd Rd. $40 8 2 means LED at 2, make your colour green with 0 fade setting (instant fade = cut)
 
 \res MCU: STM8S103
 \res export PA_ODR PA_DDR PA_CR1 PA_IDR
