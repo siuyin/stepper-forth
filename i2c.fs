@@ -61,7 +61,10 @@ NVM
 : i2cRxNotEmpty? ( -- flag )
     [ I2C_SR1 6 ]B?
 ;
-: i2cTxEmptyAndBtyeTransferred? ( -- flag )
+: i2cByteTransferred? ( -- flag )
+    [ I2C_SR1 2 ]B?
+;
+: i2cTxEmptyAndByteTransferred? ( -- flag )
     I2C_SR1 C@ $84 and $84 =
 ;
 : i2cTxDone? ( -- flag )
@@ -102,8 +105,31 @@ $2A constant acCR1 \ control register 1
     i2cInit
     acCR1 acReg \ prepare to write CR1
     3 I2C_DR C! \ send configuration byte: fast read and active.
-    begin i2cTxEmptyAndBtyeTransferred? until
+    begin i2cTxEmptyAndByteTransferred? until
     i2cStop
+;
+
+: acxyz ( -- x y z )
+    1 acReg
+
+    i2cStart
+    begin i2cStartSent? until
+    acAddr 1 + I2C_DR C! \ 0: LSB of address -> write, 1 -> read
+    begin i2cAddrSent? until
+    i2cClrAddr
+
+    i2cACK
+    begin i2cRxNotEmpty? until
+    I2C_DR C@
+
+    i2cACK
+    begin i2cRxNotEmpty? until
+    I2C_DR C@
+
+    i2cNAK
+    i2cStop
+    begin i2cRxNotEmpty? until
+    I2C_DR C@
 ;
 
 RAM
