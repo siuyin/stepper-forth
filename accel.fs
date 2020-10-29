@@ -68,10 +68,17 @@ variable z
     14pack x !
 ;
 
+: 14sign ( n -- signed )
+    dup $2000 and 0= not if
+        $1fff and
+        $2000 swap -
+        negate 
+    then
+;
 : show ( -- )
-    x ?
-    y ?
-    z ?
+    x  @ 14sign .
+    y  @ 14sign .
+    z  @ 14sign .
 ;
 
 
@@ -82,12 +89,22 @@ variable z
     show
 ;
 
+: 8sign ( n -- signed )
+    dup $80 and 0= not if
+        $7f and
+        $80 swap -
+        negate 
+    then
+;
 : 8bitShow ( -- )
     1 acxyz
     z !
     y !
     x !
-    x ? y ? z ?
+
+    x @ 8sign .
+    y @ 8sign .
+    z @ 8sign .
 ;
 
 : ac8Init ( -- )
