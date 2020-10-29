@@ -21,15 +21,15 @@ $2A constant acCR1 \ control register 1
     I2C_DR C! \ send register address
     begin i2cTxEmpty? until
 ;
-: acWake ( -- ) \ wakeup the accelerometer
+: acWake ( configByte -- ) \ wakeup the accelerometer
     i2cInit
     acCR1 acReg \ prepare to write CR1
-    3 I2C_DR C! \ send configuration byte: fast read and active.
+    I2C_DR C! \ send configuration byte: fast read and active.
     begin i2cTxEmptyAndByteTransferred? until
     i2cStop
 ;
 
-: acxyz ( -- x y z )
+: acxyz ( n -- x y z ) \ n = 1 or 4 for 3 * 8-bit or 3 * 14-bit (MSB, LSB) outputs respectively
     1 acReg
 
     i2cStart
@@ -38,18 +38,64 @@ $2A constant acCR1 \ control register 1
     begin i2cAddrSent? until
     i2cClrAddr
 
-    i2cACK
-    begin i2cRxNotEmpty? until
-    I2C_DR C@
-
-    i2cACK
-    begin i2cRxNotEmpty? until
-    I2C_DR C@
+    for \ 3-1-1 = 1 or 6-1-1 = 4
+        i2cACK
+        begin i2cRxNotEmpty? until
+        I2C_DR C@
+    next
 
     i2cNAK
     i2cStop
     begin i2cRxNotEmpty? until
     I2C_DR C@
+;
+
+variable x
+variable y
+variable z
+
+: 14pack ( msb lsb -- n )
+    2/ 2/ \ shift right 2 bits
+    $3F and \ mask off bits [7:6]
+    swap
+    5 for 2* next \ shift left 6 bits
+    +
+;
+
+: 14b ( xx yy zz -- )
+    14pack z !
+    14pack y !
+    14pack x !
+;
+
+: show ( -- )
+    x ?
+    y ?
+    z ?
+;
+
+
+
+: 14bitShow ( -- )
+    4 acxyz
+    14b
+    show
+;
+
+: 8bitShow ( -- )
+    1 acxyz
+    z !
+    y !
+    x !
+    x ? y ? z ?
+;
+
+: ac8Init ( -- )
+    3 acWake
+;
+
+: ac14Init ( -- )
+    1 acWake
 ;
 
 RAM
