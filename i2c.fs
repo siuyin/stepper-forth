@@ -7,8 +7,10 @@
 \res export I2C_FREQR I2C_CR1 I2C_CR2 I2C_DR
 \res export I2C_SR1 I2C_SR2 I2C_SR3
 \res export I2C_TRISER I2C_CCRL
+\res export I2C_ITR I2C_OARL I2C_OARH
 
 \res export PA_ODR PA_DDR PA_CR1 PA_IDR
+\res export PD_IDR PD_DDR PD_CR1
 
 NVM
 
@@ -16,12 +18,24 @@ NVM
 : dbInit ( -- )
     [ 1 PA_DDR 2 ]B! \ set PA2 to output
     [ 1 PA_CR1 2 ]B! \ set PA2 to push-pull output
+
+    [ 0 PD_DDR 3 ]B! \ set PD3 to input
+    [ 1 PD_CR1 3 ]B! \ set PD3 to pull-up
 ;
 : dbH ( -- ) \ set pin High
     [ 1 PA_ODR 2 ]B!
 ;
 : dbL [ 0 PA_ODR 2 ]B! ;
+: dbPushed? ( -- flag )
+    [ PD_IDR 3 ]B?
+;
 
+: i2cItEvEn ( -- ) \ I2C interrupt and event enable
+    [ 1 I2C_ITR 1 ]B!
+;
+: i2cItBufEn ( -- ) \ I2C interrupt on buffer event enable
+    [ 1 I2C_ITR 2 ]B!
+;
 : i2cEn ( -- )
     [ 1 I2C_CR1 0 ]B! \ enable I2C
 ;
@@ -33,6 +47,10 @@ NVM
 ;
 : i2cPeriphClkInit ( -- )
     16 I2C_FREQR C! \ tell the I2C system that it clocked from a 16MHz master clock source.
+;
+: i2cSetOwnAddr ( b -- ) \ sets own address to byte b
+    2* I2C_OARL C! \ shift left one bit for correct for mat for Own Address Reg L
+    [ 1 I2C_OARH 6 ]B! \ ADDCONF configure address 
 ;
 
 : i2cInit ( -- )
@@ -88,5 +106,4 @@ NVM
 
 
 RAM
-
 
