@@ -26,8 +26,9 @@ NVM
     [ 1 PA_ODR 2 ]B!
 ;
 : dbL [ 0 PA_ODR 2 ]B! ;
+: dbTgl ( -- ) PA_ODR C@ 4 XOR PA_ODR C! ; \ 4 is 1 << 2
 : dbPushed? ( -- flag )
-    [ PD_IDR 3 ]B?
+    [ PD_IDR 3 ]B? not
 ;
 
 : i2cItEvEn ( -- ) \ I2C interrupt and event enable
