@@ -2,11 +2,12 @@
 
 RAM
 
-\res MCU: STM8S103
+#require i2c.fs
 #require :NVM
 #require ]B?
 #require ]B!
 
+\res MCU: STM8S103
 \res export INT_I2C
 \res export I2C_SR1 I2C_SR3
 \res export I2C_CR2
