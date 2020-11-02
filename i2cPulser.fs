@@ -1,12 +1,13 @@
 \ i2cPulser - targets address 0x20 when button on PD3 is pushed.
 
-cold
 
 \res MCU: STM8S103
 \res export I2C_DR
 
-RAM
+#require i2c.fs
+#require i2cTxIntr.fs
 
+NVM
 variable pingSt
 : pingStTgl
     pingSt @ 0= if
@@ -18,20 +19,10 @@ variable pingSt
     then
 ;
 
-: wait 50 for i drop next ;
 : ping ( n addr -- )
-    begin i2cBusy? not until
+    pingAddr !
+    pingDat !
     i2cStart
-    2* 0 + I2C_DR C!
-    wait
-    i2cAddrSent? if
-        i2cClrAddr
-        I2C_DR C!
-        wait
-    else
-        drop
-    then
-    i2cStop
 ;
 
 variable btnSt
@@ -83,6 +74,8 @@ variable pingCnt
 : startup ( -- )
     ." starting main"
     i2cInit
+    i2cItEvEn
+    i2cItBufEn
     [ ' main ] literal BG !
     hi
 ;
