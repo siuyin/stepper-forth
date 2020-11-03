@@ -5,6 +5,7 @@ variable pingDat
 variable pingAddr
 RAM
 
+#require i2c.fs
 #require :NVM
 #require ]B?
 #require ]B!
@@ -23,11 +24,14 @@ RAM
         pingAddr @ 2* 0 + I2C_DR C!
     then
 
-    [ I2C_SR1 1 ]B? \ address sent or matched interrupt?
-    if
+    i2cAddrSent? if \ address sent or matched interrupt?
         i2cClrAddr
         pingDat @ I2C_DR C!
         i2cStop
+    then
+
+    i2cStopped? if
+        i2cStop \ release SCL and SDA lines
     then
 
     iret

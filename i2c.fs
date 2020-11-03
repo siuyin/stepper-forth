@@ -62,8 +62,15 @@ NVM
     i2cEn
 ;
 
+: i2cSRst ( -- )
+    [ 1 I2C_CR2 7 ]B!
+    [ 0 I2C_CR2 7 ]B!
+;
 : i2cStart ( -- )
     [ 1 I2C_CR2 0 ]B! \ triggers Start condition when in Slave mode (default after reset). Triggers Restart condition in Master mode (default after Start issued). This bit is cleared by hardware when Start is sent or when PE = 0 (Peripheral Enable = 0).
+;
+: i2cClrStart ( -- )
+    [ 0 I2C_CR2 0 ]B!
 ;
 : i2cACK ( -- ) \ set Acknowlege bit
     [ 1 I2c_CR2 2 ]B!
@@ -73,6 +80,10 @@ NVM
 ;
 : i2cStop ( -- )
     [ 1 I2C_CR2 1 ]B! \ triggers Stop condition after current byte is transferred or after Start condition is sent. Cleared by hardware when a Stop condition is detected.
+;
+: i2cClrStop ( -- )
+    I2C_SR1 C@ drop
+    0 I2C_CR2 C!
 ;
 : i2cTxEmpty? ( -- flag )
     [ I2C_SR1 7 ]B?

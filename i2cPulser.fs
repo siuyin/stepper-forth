@@ -1,13 +1,29 @@
 \ i2cPulser - targets address 0x20 when button on PD3 is pushed.
 
+cold
 
 \res MCU: STM8S103
 \res export I2C_DR
+\res export I2C_CR1 I2C_CR2 I2C_SR1 I2C_SR2 I2C_SR3
 
-#require i2c.fs
 #require i2cTxIntr.fs
 
 NVM
+
+: i2cdump
+    hex
+    cr ." CR" cr
+    I2C_CR1 C@ . cr
+    I2C_CR2 C@ . CR
+
+    ." SR" cr
+    I2C_SR1 C@ . cr
+    I2C_SR2 C@ . cr
+    I2C_SR3 C@ . cr
+
+    decimal
+;
+
 variable pingSt
 : pingStTgl
     pingSt @ 0= if
@@ -72,7 +88,7 @@ variable pingCnt
 
 
 : startup ( -- )
-    ." starting main"
+    ." start main"
     i2cInit
     i2cItEvEn
     i2cItBufEn
