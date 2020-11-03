@@ -37,6 +37,12 @@ NVM
 : i2cItBufEn ( -- ) \ I2C interrupt on buffer event enable
     [ 1 I2C_ITR 2 ]B!
 ;
+: i2cItErrEn ( -- ) \ I2C interrupt on error event enable
+    [ 1 I2C_ITR 0 ]B!
+;
+: i2cAckFErr? ( -- flag ) \ I2C ack failed error
+    [ I2C_SR2 2 ]B?
+;
 : i2cEn ( -- )
     [ 1 I2C_CR1 0 ]B! \ enable I2C
 ;
@@ -114,6 +120,12 @@ NVM
 ;
 : i2cStopped? ( -- flag )
     [ I2C_SR1 4 ]B?
+;
+: i2cClrErr ( -- )
+    0 I2C_SR2 C@
+;
+: i2cClrAF ( -- )
+    [ 0 I2C_SR2  2 ]B!
 ;
 
 

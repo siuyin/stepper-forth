@@ -92,6 +92,7 @@ variable pingCnt
     i2cInit
     i2cItEvEn
     i2cItBufEn
+    i2cItErrEn
     [ ' main ] literal BG !
     hi
 ;

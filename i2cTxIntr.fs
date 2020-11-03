@@ -31,7 +31,11 @@ RAM
     then
 
     i2cStopped? if
-        i2cStop \ release SCL and SDA lines
+        I2C_CR2 C@ I2C_CR2 C! \ clear stop flag
+    then
+
+    i2cAckFErr? if
+        i2cClrAF
     then
 
     iret
