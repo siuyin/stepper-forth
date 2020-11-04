@@ -1,6 +1,5 @@
 \ i2cPulser - targets address 0x20 when button on PD3 is pushed.
 
-cold
 
 \res MCU: STM8S103
 \res export I2C_DR

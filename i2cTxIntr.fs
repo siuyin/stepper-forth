@@ -19,6 +19,11 @@ RAM
 
 :NVM
     savec
+
+    i2cAckFErr? if
+        i2cClrAF
+        i2cStop
+    then
     
     i2cStartSent? if
         pingAddr @ 2* 0 + I2C_DR C!
@@ -34,9 +39,6 @@ RAM
         I2C_CR2 C@ I2C_CR2 C! \ clear stop flag
     then
 
-    i2cAckFErr? if
-        i2cClrAF
-    then
 
     iret
 ;NVM INT_I2C !
