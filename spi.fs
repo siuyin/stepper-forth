@@ -48,7 +48,7 @@ NVM
     then
 ;
 : spCfg ( enable/nDisable master/nSlave -- ) \ configure SPI
-    $33 SPI_CR1 C! \ MSB first, 125kHz clock, CPol=1,CPha=1, disabled, slave
+    $30 SPI_CR1 C! \ MSB first, 125kHz clock, CPol=0,CPha=0, disabled, slave
     spMst
     spEn
 ;
