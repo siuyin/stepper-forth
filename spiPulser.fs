@@ -1,8 +1,11 @@
 
 \res MCU: STM8S103
 \res export SPI_CR1 SPI_CR2 SPI_SR SPI_DR
+\res export PA_ODR PA_DDR PA_CR1
+
 
 #require spi.fs
+
 
 NVM
 
@@ -15,24 +18,38 @@ NVM
     decimal
 ;
 
+: SS ( n -- )
+    0= if
+        [ 1 PA_ODR 1 ]B! \ slave not selected
+    else
+        [ 0 PA_ODR 1 ]B! \ slave selected
+    then
+;
+: SSInit ( -- )
+    [ 1 PA_DDR 1 ]B! \ set PA1 to output
+    [ 1 PA_CR1 1 ]B! \ set PA1 to push-pull output
+    0 SS
+;
 : spInit ( -- )
     dbInit \ initialise debug
-    0 spRxOnly \ transmit only
+    \ 0 spRxOnly \ transmit only
     1 1 spCfg \ enable spi master
 ;
 
-: spWrite ( b -- )
-    SPI_DR C!
+: txDly ( -- )
+    2 for i drop next
+    begin spTxE? until
 ;
-
 variable btnSt
 variable btnNR \ next run tick
 : btnSM ( -- )
     btnSt @ 0= if
         dbPushed? if
+            1 SS
             $a5 spWrite
-            begin spTxE? until
+            txDly
             $5a spWrite
+            txDly
             dbH
             1 btnSt ! \ pushed
         then
@@ -45,6 +62,7 @@ variable btnNR \ next run tick
         dbPushed?  if
             1 btnSt ! \ still pushed
         else
+            0 SS \ release slave
             dbL
             0 btnSt ! \ released
         then
@@ -74,6 +92,7 @@ variable btnCnt
 : startup ( -- )
     cr ." start spi"
     spInit
+    SSInit \ initialise slave select line
     [ ' main ] literal BG !
     hi
 ;
