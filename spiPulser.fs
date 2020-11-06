@@ -37,7 +37,6 @@ NVM
 ;
 
 : wtBufClr ( -- )
-    2 for i drop next
     begin spTxE? until
 ;
 variable btnSt
