@@ -36,7 +36,7 @@ NVM
     1 1 spCfg \ enable spi master
 ;
 
-: txDly ( -- )
+: wtBufClr ( -- )
     2 for i drop next
     begin spTxE? until
 ;
@@ -45,11 +45,13 @@ variable btnNR \ next run tick
 : btnSM ( -- )
     btnSt @ 0= if
         dbPushed? if
-            1 SS
+            wtBufClr
+            1 SS \ enable slave
             $a5 spWrite
-            txDly
+            wtBufClr
             $5a spWrite
-            txDly
+            begin spBsy? not until
+            0 SS \ release slave
             dbH
             1 btnSt ! \ pushed
         then
@@ -62,7 +64,6 @@ variable btnNR \ next run tick
         dbPushed?  if
             1 btnSt ! \ still pushed
         else
-            0 SS \ release slave
             dbL
             0 btnSt ! \ released
         then
