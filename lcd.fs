@@ -111,4 +111,31 @@ NVM
     _w2Nbl
 ;
 
+: lcHome ( -- ) \ sets cursor to line 0, position 0.
+    0 _rs
+    2 _w2Nbl
+    _wt5ms
+;
+
+: lcCPos ( pos lin -- ) \ sets cursor position to position pos, line lin.
+    0 _rs
+    $40 * + \ line 0 start at 0x00, line n starts at n * 0x40
+    $80 or \ cmd $80 sets the Display RAM  address
+    _w2Nbl
+;
+
+1 constant BLINK
+2 constant CURSOR
+4 constant DISPLAY
+: lcDisp ( n -- ) \ 
+    0 _rs
+    $08 or _w2Nbl \ 0x08 is display control, n sets display mode, eg. n=4+1 (DISPLAY and CURSOR ON).
+;
+
+: lcInit ( -- )
+    _portInit
+    lcRst
+    lc1602
+    lcClr
+;
 RAM
