@@ -132,6 +132,15 @@ NVM
     $08 or _w2Nbl \ 0x08 is display control, n sets display mode, eg. n=4+1 (DISPLAY and CURSOR ON).
 ;
 
+: lcScroll ( n -- ) \ 0: scroll display left, 1: scroll display right
+    0 _rs
+    0= if
+        $18  _w2Nbl \ 0x10 is cursor shift, 0x08 is display control
+    else
+        $1c _w2Nbl \ 0x4 is move right, 0x8 + 0x4 = 0xc
+    then
+;
+
 : lcInit ( -- )
     _portInit
     lcRst
