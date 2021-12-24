@@ -1,6 +1,7 @@
-NVM
-
 \res MCU: STM8S103
+#require ]B!
+
+NVM
 
 \ The counter clock frequency is calculated as follows:
 \ f CK_CNT = f CK_PSC /(PSCR[15:0]+1)
@@ -14,7 +15,6 @@ NVM
     TIM1_ARRH 2C!
     ;
 
-#require ]B!
 \res export TIM1_CR1     \ TIM1 control register 1
 : TIM1.enableClock ( -- ) 
     [ 1 TIM1_CR1 0 ]B!
