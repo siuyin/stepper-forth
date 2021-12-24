@@ -1,13 +1,8 @@
-NVM
-
-variable nx
-
-\ dly is a blocking delay of n * 5ms ticks.
+\ dly2 is a blocking delay of n * 5ms ticks.
 : dly ( n -- )
-    tim + nx !
+    tim + >R	\ push TIM + n to return stack
     begin
-        tim nx @ =
+        tim R@ =
     until
+    R> DROP	\ remove TIM + n from return stack
 ;
-
-RAM
