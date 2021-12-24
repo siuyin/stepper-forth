@@ -1,4 +1,4 @@
-\ dly2 is a blocking delay of n * 5ms ticks.
+\ dly is a blocking delay of n * 5ms ticks.
 : dly ( n -- )
     tim + >R	\ push TIM + n to return stack
     begin
