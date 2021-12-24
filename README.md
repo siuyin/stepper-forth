@@ -32,3 +32,15 @@ The '2' above is the step-interval (2 * 5ms),
 Thus the above will cause the stepper motor
 to rotate 1 revolution.
 
+## Other utility code
+
+### dly.fs
+Provides a blocking delay by using stm8ef TIM counter.
+
+### meccabrain.fs
+Provides routines to drive Mecanno M.A.X robot components.
+
+`meccabrain_test.fs` illustrates basic unit testing principles.
+
+### tim1.fs
+Timer 1 functions.
