@@ -1,7 +1,7 @@
 \ Measuring / calibrating the low speed internal (LSI) oscillator.
-\ The LSI has a nominal frequency of 125kHz +/- 12.5%
+\ The LSI has a nominal frequency of 128kHz +/- 12.5%
 \ At a master clock rate of 16MHz +/- 1%,
-\ the LSI should have a period of 128 master clock cycles.
+\ the LSI should have a period of 125 master clock cycles.
 \res MCU: STM8S103
 
 #require MARKER

@@ -40,7 +40,7 @@ Provides a blocking delay by using stm8ef TIM counter.
 ### lsi-en.fs lsi-meas.fs
 Routines to enable and measure/calibrate
 the low speed internal (LSI) oscillator.
-That oscillator has a nominal frequency of 125kHz +/- 12.5% .
+That oscillator has a nominal frequency of 128kHz +/- 12.5% .
 
 ### meccabrain.fs
 Provides routines to drive Mecanno M.A.X robot components.
