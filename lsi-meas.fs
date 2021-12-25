@@ -4,10 +4,13 @@
 \ the LSI should have a period of 128 master clock cycles.
 \res MCU: STM8S103
 
+#require MARKER
 #require ]B!
 #require ]B?
 #require tim1.fs
 #require lsi-en.fs
+
+MARKER END\
 
 \res export TIM1_CCER1   \ TIM1 capture/compare enable register 1
 NVM
@@ -27,8 +30,10 @@ NVM
 : tim1.cc1.out ( -- ) \ timer 1 input capture disabled, configured as output
   [ 0 TIM1_CCMR1 0 ]B!
   [ 0 TIM1_CCMR1 1 ]B! ;
+RAM
 
 \res export TIM1_CCR1H   \ TIM1 capture/compare register 1 high
+NVM
 : tim1.cc1.reg ( -- u )
   TIM1_CCR1H 2C@ ;
 
@@ -56,5 +61,8 @@ NVM
   tim1.cc1.dis 
   ;
 RAM
+
+\ use MARKER to remove constants exported to RAM.
+END\ 
 
 \\ measLSI u. to measure LSI period.
