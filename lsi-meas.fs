@@ -4,13 +4,10 @@
 \ the LSI should have a period of 128 master clock cycles.
 \res MCU: STM8S103
 
-#require MARKER
 #require ]B!
 #require ]B?
 #require tim1.fs
 #require lsi-en.fs
-
-MARKER END\
 
 \res export TIM1_CCER1   \ TIM1 capture/compare enable register 1
 NVM
