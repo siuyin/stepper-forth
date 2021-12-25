@@ -37,6 +37,12 @@ NVM
     ;
 RAM
 
+\res export TIM1_CNTRH   \ TIM1 counter high
+NVM
+: TIM1.ctr ( -- u )	\ timer 1 counter
+ TIM1_CNTRH 2C@ ;
+RAM
+
 \res export TIM1_CCMR3   \ TIM1 capture/compare mode register 3
 \res export TIM1_CCER2   \ TIM1 capture/compare enable register 2
 \res export TIM1_BKR     \ TIM1 break register
