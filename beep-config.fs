@@ -3,7 +3,6 @@
 
 \res export OPT2    \ Options 2 Alternate function remapping
 #require OPT!
-: setBeepFunction ( -- )
+: setBeepFunction ( -- ) \ This apparently cannot be set in NVM. Why?
     $80 OPT2 OPT!
 ;
-

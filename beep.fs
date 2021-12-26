@@ -1,25 +1,37 @@
 \ beep.fs beeper routines
 
+#require beep-config.fs
 #require ]B!
+#require MARKER
+
+MARKER END\
+\res MCU: STM8S103
+\res export BEEP_CSR     \ BEEP control/status register          (0x1F)
 
 NVM
 
 variable beep.Ctr
 
 : beep.Init ( -- )
-    $0e $50f3 c!
+    $0e BEEP_CSR c!
 ;
-: 1k $0e $50f3 C! ;
-: 2k $4e $50f3 C! ;
-: 4k $8e $50f3 C! ;
+: 1k $0e BEEP_CSR C! ;
+: 2k $4e BEEP_CSR C! ;
+: 4k $8e BEEP_CSR C! ;
 
 
 : beep.Off 
-    [ 0 $50f3 5 ]B!
+    [ 0 BEEP_CSR 5 ]B!
 ;
 
 : beep.On 
-    [ 1 $50f3 5 ]B! 
+    [ 1 BEEP_CSR 5 ]B! 
 ;
 
 RAM
+
+END\
+
+\\ Examples:
+
+2k \ cause the beeper to sound at 2kHz.
