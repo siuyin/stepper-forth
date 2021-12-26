@@ -45,7 +45,7 @@ Routines to enable and measure/calibrate
 the low speed internal (LSI) oscillator.
 That oscillator has a nominal frequency of 128kHz +/- 12.5% .
 
-### meccabrain.fs
+### meccabrain.fs, meccabrain_test.fs
 Provides routines to drive Mecanno M.A.X robot components.
 
 `meccabrain_test.fs` illustrates basic unit testing principles.
