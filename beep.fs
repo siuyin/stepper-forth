@@ -10,6 +10,7 @@ MARKER END\
 
 NVM
 : beep.Init ( -- )
+    setBeepFunction	\ Configure option work to enable BEEP pin.
     $0e BEEP_CSR c!
 ;
 : 1k $0e BEEP_CSR C! ;
