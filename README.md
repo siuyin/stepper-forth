@@ -34,10 +34,13 @@ to rotate 1 revolution.
 
 ## Other utility code
 
+### beep.fs, beep-config.fs
+Routines to enable the beeper pin.
+
 ### dly.fs
 Provides a blocking delay by using stm8ef TIM counter.
 
-### lsi-en.fs lsi-meas.fs
+### lsi-en.fs, lsi-meas.fs
 Routines to enable and measure/calibrate
 the low speed internal (LSI) oscillator.
 That oscillator has a nominal frequency of 128kHz +/- 12.5% .
