@@ -9,9 +9,6 @@ MARKER END\
 \res export BEEP_CSR     \ BEEP control/status register          (0x1F)
 
 NVM
-
-variable beep.Ctr
-
 : beep.Init ( -- )
     $0e BEEP_CSR c!
 ;
